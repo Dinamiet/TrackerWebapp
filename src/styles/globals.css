@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
   --background: #ffffff;
@@ -23,4 +24,92 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.center-container {
+  display: flex;
+  flex-direction: column;
+  /* Stack children vertically */
+  justify-content: center;
+  /* Center vertically */
+  align-items: center;
+  /* Center horizontally */
+  height: 100vh;
+  /* Full viewport height */
+  gap: 1rem;
+  /* Add spacing between input and button */
+}
+
+button {
+  background-color: #1e1e1e;
+  /* Dark gray background for dark theme */
+  color: #ededed;
+  /* Light text for contrast */
+  border: 1px solid #333333;
+  /* Subtle border for definition */
+  border-radius: 8px;
+  /* Rounded corners */
+  padding: 0.75rem 1.5rem;
+  /* Add padding */
+  font-size: 1rem;
+  /* Modern font size */
+  font-weight: 600;
+  /* Slightly bold text */
+  cursor: pointer;
+  /* Pointer cursor on hover */
+  transition: background-color 0.3s ease, transform 0.2s ease, border-color 0.3s ease;
+  /* Smooth transitions */
+}
+
+button:hover {
+  background-color: #292929;
+  /* Slightly lighter gray on hover */
+  border-color: #444444;
+  /* Subtle border color change */
+  transform: scale(1.05);
+  /* Slightly enlarge on hover */
+}
+
+button:active {
+  background-color: #121212;
+  /* Even darker gray on click */
+  border-color: #555555;
+  /* Slightly lighter border on click */
+  transform: scale(0.95);
+  /* Slightly shrink on click */
+}
+
+input {
+  background-color: #1e1e1e;
+  /* Dark gray background for dark theme */
+  color: #ededed;
+  /* Light text for contrast */
+  border: 1px solid #333333;
+  /* Subtle border for definition */
+  border-radius: 8px;
+  /* Rounded corners */
+  padding: 0.75rem 1rem;
+  /* Add padding for better spacing */
+  font-size: 1rem;
+  /* Modern font size */
+  font-family: inherit;
+  /* Use the same font as the body */
+  outline: none;
+  /* Remove default outline */
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  /* Smooth transitions */
+}
+
+input:focus {
+  border-color: #444444;
+  /* Highlight border on focus */
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  /* Subtle glow effect */
+}
+
+input::placeholder {
+  color: #888888;
+  /* Subtle placeholder text color */
+  opacity: 1;
+  /* Ensure placeholder is fully visible */
 }
