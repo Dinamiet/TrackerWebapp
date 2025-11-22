@@ -24,10 +24,12 @@ const decrypt = (ivString, keyString, data) => {
     const key = hash(keyString);
 
     const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
+    decipher.setAutoPadding(false);
     let decrypted = decipher.update(data);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     console.log("Decrypted:", decrypted.toString());
-    return JSON.parse(decrypted.toString());
+    const descryptedString = decrypted.toString();
+    return JSON.parse(descryptedString.substring(0, descryptedString.lastIndexOf('}') + 1));
   } catch (error) {
     return { lat: 0, lng: 0 }; // Return a default location on error
   }
