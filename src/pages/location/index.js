@@ -2,38 +2,14 @@ import { useRouter } from "next/router";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
-import crypto from 'crypto';
 import Constant from "./../../constants";
+import decrypt from "./../../decryption";
 
 // Dynamically import react-leaflet components with SSR disabled
 const MapContainer = dynamic(() => import("react-leaflet").then((mod) => mod.MapContainer), { ssr: false });
 const TileLayer = dynamic(() => import("react-leaflet").then((mod) => mod.TileLayer), { ssr: false });
 const Marker = dynamic(() => import("react-leaflet").then((mod) => mod.Marker), { ssr: false });
 const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), { ssr: false });
-
-const decrypt = (ivString, keyString, data) => {
-  try {
-    const hash = (h) => {
-      const hash = crypto.createHash('sha256');
-      hash.update(h);
-      return hash.digest();
-    };
-
-    // Example usage
-    const iv = hash(ivString).slice(0, 16);
-    const key = hash(keyString);
-
-    const decipher = crypto.createDecipheriv('aes-256-cbc', key, iv);
-    decipher.setAutoPadding(false);
-    let decrypted = decipher.update(data);
-    decrypted = Buffer.concat([decrypted, decipher.final()]);
-    console.log("Decrypted:", decrypted.toString());
-    const descryptedString = decrypted.toString();
-    return JSON.parse(descryptedString.substring(0, descryptedString.lastIndexOf('}') + 1));
-  } catch (error) {
-    return { lat: 0, lng: 0 }; // Return a default location on error
-  }
-};
 
 const Location = () => {
   const router = useRouter();
@@ -70,8 +46,10 @@ const Location = () => {
         if (!response.ok) {
           return;
         }
-        const data = await response.json();
-        setLocation(decrypt(Constant.IV, key, Buffer.from(data.data)));
+        const rawData = await response.json();
+        const data = decrypt(Constant.IV, key, Buffer.from(rawData.data));
+        if (Object.hasOwn(data, 'lat') && Object.hasOwn(data, 'lng'))
+          setLocation(data);
       } catch (error) {
         console.error("Error fetching location data:", error);
       }
