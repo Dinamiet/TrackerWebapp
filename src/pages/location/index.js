@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Constant from "./../../constants";
 import decrypt from "./../../decryption";
 
-const Map = dynamic(() => import("./map"), { ssr: false });
+const Map = dynamic(() => import("../../components/map"), { ssr: false });
 
 const Location = () => {
   const router = useRouter();

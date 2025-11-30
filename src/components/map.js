@@ -1,10 +1,5 @@
-'use client'
-
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useMap, MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-
-// const { useMap, MapContainer, TileLayer, Marker, Popup } = dynamic(() => import("react-leaflet"), { ssr: false });
 
 const Updater = ({ position }) => {
   const map = useMap();
