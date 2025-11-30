@@ -18,6 +18,7 @@ const Location = () => {
   const [customIcon, setCustomIcon] = useState(null);
   const [key, setKey] = useState("");
   const [location, setLocation] = useState({ lat: 0, lng: 0 }); // Default location
+  const [time, setTime] = useState(null);
 
   useEffect(() => {
     // Dynamically import Leaflet to create a custom icon
@@ -50,6 +51,10 @@ const Location = () => {
         const data = decrypt(Constant.IV, key, Buffer.from(rawData.data));
         if (Object.hasOwn(data, 'lat') && Object.hasOwn(data, 'lng'))
           setLocation(data);
+        if (Object.hasOwn(data, 'time')) {
+          const date = new Date(data.time * 1000);
+          setTime(date.toLocaleString());
+        }
       } catch (error) {
         console.error("Error fetching location data:", error);
       }
@@ -68,14 +73,12 @@ const Location = () => {
 
   return (
     <div className="center-container">
-      <div>
         <input
           type="text"
           value={key}
           onChange={(e) => setKey(e.target.value)}
         />
-        <button />
-      </div>
+      <label>{time}</label>
       <div style={{ width: "100%", height: "90vh" }}>
         <MapContainer
           center={[location.lat, location.lng]} // Default center (latitude, longitude)
